@@ -1,0 +1,198 @@
+{% extends 'webui/base_webui.html' %}
+{% load extras %}
+{% block additional_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip({
+            trigger: 'click'
+        });
+    })
+</script>
+{% endblock %}
+{% block title %}
+Apache log
+{% endblock %}
+
+{% block content %}
+<div class="m-4">
+    <div class="border">
+        <form id="main_form" action="{% url 'records_list_url' %}">
+            <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <label for="inputIPaddress">
+                                IP address
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <label for="inputDateStart">
+                                Date
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <label for="inputMethod">
+                                HTTP method
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <label for="inputUri">
+                                URI
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <label for="inputResponseCode">
+                                Response code
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <label for="inputRequestSize">
+                                Request size
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th scope="col">
+                <div class="form-group">
+                    <input type="search" class="form-control form-control-sm" id="inputIPaddress" name="ipaddr" value="{{ attributes.ip_address }}">
+                </div>
+            </th>
+            <th scope="col">
+                <div class="form-group">
+                    <input type="date"
+                           min="{{ min_date }}"
+                           class="form-control form-control-sm"
+                           id="inputDateStart"
+                           name="startdate"
+                           title="Date from"
+                           value="{{ attributes.start_date }}">
+                </div>
+                <div class="form-group inputDateEnd">
+                    <input type="date"
+                           min="{{ min_date }}"
+                           class="form-control form-control-sm"
+                           id="inputDateEnd"
+                           name="enddate"
+                           title="Date to"
+                           value="{{ attributes.end_date }}">
+                </div>
+            </th>
+            <th scope="col">
+                <div class="form-group">
+                    <input type="search" class="form-control form-control-sm" id="inputMethod" name="method" value="{{ attributes.http_method }}">
+                </div>
+            </th>
+            <th scope="col">
+                <div class="form-group">
+                    <input type="search" class="form-control form-control-sm" id="inputUri" name="uri" value="{{ attributes.uri }}">
+                </div>
+            </th>
+            <th scope="col">
+                <div class="form-group">
+                    <input type="search" class="form-control form-control-sm" id="inputResponseCode" name="response_code" value="{{ attributes.response_code }}">
+                </div>
+            </th>
+            <th scope="col">
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-sm" id="inputRequestSize" name="request_size">
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <td colspan="999" style="text-align: center">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col col-2"><button type="submit" class="btn btn-info btn-sm">Apply filters</button></div>
+                        <script>
+                            function clear_form(form) {
+                                for (let nItem = 0; nItem < form.elements.length; nItem++) {
+                                    let field = form.elements[nItem];
+                                    if (field.tagName != "BUTTON") {
+                                        if (field.value != "") {
+                                            field.value = "";
+                                        }
+                                    }
+                                }
+                            }
+                        </script>
+                        <div class="col col-2"><button type="button" class="btn btn-light btn-sm" onclick="clear_form(this.form);this.form.submit()">Clear filters</button></div>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="999">{% pagination_nav %}</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in page.object_list %}
+        <tr>
+            <td>
+                <button class="btn btn-link"
+                        type="button"
+                        data-placement="left"
+                        data-toggle="tooltip"
+                        data-html="true"
+                        title='<a class="btn btn-link btn-sm text-white" href="/log/?ipaddr={{ record.ip_addr }}">Apply as filter</a>'>
+                    {{ record.ip_addr }}
+                </button>
+            </td>
+            <td>{{ record.get_formatted_date }}</td>
+            <td>{{ record.http_method }}</td>
+            <td class="word-braked">{{ record.request_uri }}</td>
+            <td>{{ record.error_code }}</td>
+            <td>{{ record.response_size }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+            {% pagination_nav %}
+        </form>
+    </div>
+    <div class="container my-4">
+        <div class="row">
+            {% statistics statistics.all %}
+            {% statistics statistics.filtered %}
+        </div>
+    </div>
+</div>
+{% endblock %}

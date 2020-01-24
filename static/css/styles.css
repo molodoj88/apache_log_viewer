@@ -1,0 +1,15 @@
+.table tbody {
+    font-size: 14px;
+}
+
+.word-braked {
+    word-break: break-all;
+}
+
+.table .dropdown-item {
+    font-size: 12px;
+}
+
+.table thead th {
+    vertical-align: top;
+}

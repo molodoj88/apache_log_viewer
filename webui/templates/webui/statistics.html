@@ -1,0 +1,55 @@
+{% if empty %}
+<div class="col"></div>
+{% else %}
+<div class="col highlight shadow mx-2 rounded">
+    <h4 class="m-3">{{ heading }}</h4>
+    <table class="table table-striped table-sm table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Parameter</th>
+            <th scope="col">Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ total_records.name }}</td>
+            <td>{{ total_records.value }}</td>
+        </tr>
+        <tr>
+            <td>{{ total_ip_addresses.name }}</td>
+            <td>{{ total_ip_addresses.value }}</td>
+        </tr>
+                <tr>
+            <td>{{ three_most_common_ip.name }}</td>
+            <td>
+                <table class="table table-sm">
+                    <tbody>
+                    {% for k, v in three_most_common_ip.value.items %}
+                        <tr>
+                            <td>{{ k }}</td>
+                            <td>{{ v }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>{{ total_methods_count.name }}</td>
+            <td>
+                <table class="table table-sm">
+                    <tbody>
+                    {% for k, v in total_methods_count.value.items %}
+                        <tr>
+                            <td>{{ k }}</td>
+                            <td>{{ v }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+{% endif %}
