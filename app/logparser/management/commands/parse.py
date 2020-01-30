@@ -85,6 +85,7 @@ class Parser:
                     self.save_log_record(record)
                     pbar.update(1)
 
+
     @staticmethod
     def save_log_record(parsed_data: dict):
         """

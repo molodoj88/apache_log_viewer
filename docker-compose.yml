@@ -3,10 +3,23 @@ version: '3.7'
 services:
   web:
     build: ./app
-    command: python manage.py runserver 0.0.0.0:8111
+    command: gunicorn apachelogparser.wsgi:application --bind 0.0.0.0:8111
     volumes:
-      - ./app/:/usr/src/app/
+      - ./app/database:/usr/src/app/database
+      - static_volume:/usr/src/app/staticfiles
     ports:
       - 8111:8111
     env_file:
       - ./.env.dev
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/home/app/staticfiles
+    ports:
+      - 80:80
+    depends_on:
+      - web
+
+volumes:
+  - static_volume:

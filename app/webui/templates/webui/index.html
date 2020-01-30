@@ -16,6 +16,19 @@ Apache log
 {% endblock %}
 
 {% block content %}
+{% if empty %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+    </div>
+    <div class="col-sm">
+      <p class="text-center">There is no records in database</p>
+    </div>
+    <div class="col-sm">
+    </div>
+  </div>
+</div>
+{% else %}
 <div class="m-4">
     <div class="border">
         <form id="main_form" action="{% url 'records_list_url' %}">
@@ -195,4 +208,5 @@ Apache log
         </div>
     </div>
 </div>
+{% endif %}
 {% endblock %}
