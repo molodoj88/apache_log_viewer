@@ -25,11 +25,15 @@ def records_list(request):
     # Get all records
     try:
         records = LogRecord.objects.all()
+        all_records_num = len(records)
         if records:
             pass
     except OperationalError:
         context = {"empty": True}
     else:
+        # Get all statistics
+        all_statistics = get_statistics(records, heading="All records statistics")
+
         # Apply filters if exists
         records, href = apply_filters(records,
                                       ip_address=ip_address,
@@ -58,9 +62,7 @@ def records_list(request):
         page_number = request.GET.get('page', 1)
         page, number_of_pages = paginate(records, RECORDS_PER_PAGE, page_number)
 
-        # Get statistics
-        all_statistics = get_statistics(records, heading="All records statistics")
-
+        # Get filtered statistics
         if len(records) != all_statistics["total_records"]["value"]:
             filtered_statistics = get_statistics(records, heading="Filtered records statistics")
         else:
