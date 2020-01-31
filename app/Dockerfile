@@ -14,3 +14,4 @@ COPY . /usr/src/app/
 RUN pip install -r requirements.txt
 RUN mkdir /usr/src/app/staticfiles
 
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
