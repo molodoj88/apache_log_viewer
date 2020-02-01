@@ -102,7 +102,7 @@ Apache log
                 </div>
             </th>
         </tr>
-        <tr>
+        <tr class="filter hidden">
             <th scope="col">
                 <div class="form-group">
                     <input type="search" class="form-control form-control-sm" id="inputIPaddress" name="ipaddr" value="{{ attributes.ip_address }}">
@@ -149,7 +149,7 @@ Apache log
                 </div>
             </th>
         </tr>
-        <tr>
+        <tr class="filter hidden">
             <td colspan="999" style="text-align: center">
                 <div class="container">
                     <div class="row justify-content-center">
@@ -172,6 +172,25 @@ Apache log
 
             </td>
         </tr>
+        <tr>
+            <td colspan="999" style="text-align: center">
+                <button type=button class="btn btn-link btn-sm show-filters" onclick="show_or_hide_filters()">Show filters</button>
+            </td>
+        </tr>
+        <script>
+            function show_or_hide_filters () {
+                let el = $(".filter");
+                let btn = $(".show-filters");
+                if (!el.is(":visible")) {
+                    el.show("slow");
+                    btn.html("Hide filters")
+                }
+                else {
+                    el.hide("slow");
+                    btn.html("Show filters")
+                }
+            }
+        </script>
         <tr>
             <td colspan="999">{% pagination_nav %}</td>
         </tr>

@@ -1,3 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=Catamaran);
+
+body {
+    font-family: 'Catamaran', sans-serif;
+}
+
 .table tbody {
     font-size: 14px;
 }
@@ -12,4 +18,8 @@
 
 .table thead th {
     vertical-align: top;
+}
+
+.hidden {
+    display:none;
 }
