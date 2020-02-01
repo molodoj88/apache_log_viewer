@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+rm -rf /usr/src/app/database
 mkdir /usr/src/app/database
 python manage.py migrate
 python manage.py collectstatic --no-input --clear

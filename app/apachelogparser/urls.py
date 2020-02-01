@@ -20,7 +20,7 @@ from .views import *
 
 urlpatterns = [
     path('', main_page, name='main_page_url'),
-    path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
+    path('favicon.ico', RedirectView.as_view(url='/staticfiles/images/favicon.ico')),
     path('admin/', admin.site.urls),
     path('log/', include('webui.urls'))
 ]
