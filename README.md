@@ -1,4 +1,5 @@
 # Viewer for apache logs
+Demo available [here](http://ec2-52-36-187-110.us-west-2.compute.amazonaws.com/log/)
 ## Prerequisites
 To get started, you need [Docker](https://docs.docker.com/install/) and [Docker-compose](https://docs.docker.com/compose/install/) installed.
 
