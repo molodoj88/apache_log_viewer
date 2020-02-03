@@ -12,7 +12,13 @@ def records_list(request):
     """
     Main view of UI
     """
+    # Get records per page from session
     global RECORDS_PER_PAGE
+    records_per_page = request.session.get("records_per_page")
+    if not records_per_page:
+        records_per_page = RECORDS_PER_PAGE
+        request.session["records_per_page"] = records_per_page
+
     # Start filters descriptions
     ip_address = request.GET.get('ipaddr', '')
     start_date = request.GET.get('startdate', '')
@@ -56,11 +62,12 @@ def records_list(request):
         max_date = max(all_dates).strftime("%Y-%m-%d")
 
         # Paginate
-        records_per_page = request.GET.get('records_per_page', '')
-        if records_per_page:
-            RECORDS_PER_PAGE = int(records_per_page)
+        _records_per_page = request.GET.get('records_per_page', '')
+        if _records_per_page:
+            records_per_page = int(_records_per_page)
+            request.session["records_per_page"] = records_per_page
         page_number = request.GET.get('page', 1)
-        page, number_of_pages = paginate(records, RECORDS_PER_PAGE, page_number)
+        page, number_of_pages = paginate(records, records_per_page, page_number)
 
         # Get filtered statistics
         if len(records) != all_statistics["total_records"]["value"]:
@@ -75,7 +82,7 @@ def records_list(request):
                    "max_date": max_date,
                    "href": href,
                    "attributes": attributes,
-                   "records_per_page": RECORDS_PER_PAGE,
+                   "records_per_page": records_per_page,
                    "records_per_page_list": RECORDS_PER_PAGE_LIST,
                    "statistics": {"all": all_statistics,
                                   "filtered": filtered_statistics}}
