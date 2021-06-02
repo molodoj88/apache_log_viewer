@@ -11,6 +11,6 @@ six==1.12.0
 sqlparse==0.3.0
 tqdm==4.31.1
 ua-parser==0.8.0
-urllib3==1.24.3
+urllib3==1.26.5
 user-agents==2.0
 gunicorn==20.0.4
